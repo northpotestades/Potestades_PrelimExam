@@ -1,42 +1,66 @@
 ---
  - hosts: ubuntu
    become: true
-   tasks:
+   #these are the variables specified in the instructions for the 
+   #last 2 bullet points
+   vars:
+     motd: Hello
+     user: dexter
 
+   tasks:
    - name: Install python3
+     #i use apt to intall python3
      apt: 
-	name: python3
+       name: python3
 
    - name: Install pip3
+     #i use apt to install python3-pip which is the module for pip3
      apt:
-	name: python3-pip
+       name: python3-pip
 
    - name: Set pip3 as default pip
+     #i use copy to copy the pip3 folder to pip, making it the default
      copy:
-	src: /usr/bin/pip3
-	dest: /usr/bin/pip
+       src: /usr/bin/pip3
+       dest: /usr/bin/pip
 
    - name: Set python3 as default python
-
+     #i use copy to copy the python3 folder to python, making it the default
+     copy:
+       src: /usr/bin/python3
+       dest: /usr/bin/python
 
    - name: Install Java open-jdk
+     #i use apt to install openjdk-8-jdk which is the module for
+     #Java open-jdk
      apt:
-	name: openjdk-8-jdk
+       name: openjdk-8-jdk
 
    - name: Install MariaDB
+     #i use apt to install mariadb-server which is the module for MariaDB
      apt:
-	name: mariadb-server
+       name: mariadb-server
 
    - name: Start MariaDB
-     command: ./mariadb start
-     args:
-	chdir: 
+     #i use service to start mariadb by changing the state to started
+     service:
+       name: mariadb
+       state: started
 
-   - name: Create a database, a table, and input record in MariaDB
+#   - name: Create a database, a table, and input record in MariaDB
+#     mysql_db:
+#       name: newdb
+#       state: present
 
-
-   - name: Create MOTD
+#   - name: Create MOTD
 
 
    - name: Create a user
-
+     #i create a user using the user command, specifying the variable used
+     #for the name, the password, the state, and the location of the shell
+     user:
+       name: "{{ user }}"
+       state: present
+       password: "morgan"
+       shell: /bin/bash
+       group: "sudo"
