@@ -46,6 +46,8 @@
      service:
        name: mariadb
        state: started
+#these 2 sections of code are incomplete, as i was not able to make it
+#work, or find an example in the allowed websites
 
 #   - name: Create a database, a table, and input record in MariaDB
 #     mysql_db:
